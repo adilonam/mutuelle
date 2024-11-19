@@ -1,0 +1,23 @@
+# DataSource configuration
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mutuelle
+    username: gpfa
+    password: 2641
+    driver-class-name: org.postgresql.Driver
+
+# JPA configuration
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+

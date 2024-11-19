@@ -1,0 +1,50 @@
+[
+    {
+    "nomAssure": "Ibrahimi",
+    "numeroAffiliation": "AFF123456",
+    "immatriculation": "IMM098765",
+    "lienParente": "fils",
+    "montantTotalFrais": 150.0,
+    "prixConsultation": 50.0,
+    "nombrePiecesJointes": 3,
+    "nomBeneficiaire": "Omar",
+    "dateDepotDossier": "2024-11-10",
+    "traitements": [
+    {
+    "codeBarre": "1234567890",
+    "existe": true,
+    "nomMedicament": "Paracétamol",
+    "typeMedicament": "Antalgique",
+    "prixMedicament": 5.0
+    },
+    
+    {
+    "codeBarre": "0987654321",
+    "existe": false,
+    "nomMedicament": "Ibuprofène",
+    "typeMedicament": "Anti-inflammatoire",
+    "prixMedicament": 8.0
+    }
+    ]
+    },
+    {
+    "nomAssure": "Farouk",
+    "numeroAffiliation": "AFF654321",
+    "immatriculation": "IMM123098",
+    "lienParente": "épouse",
+    "montantTotalFrais": 200.0,
+    "prixConsultation": 60.0,
+    "nombrePiecesJointes": 2,
+    "nomBeneficiaire": "Samira",
+    "dateDepotDossier": "2024-11-11",
+    "traitements": [
+    {
+    "codeBarre": "1122334455",
+    "existe": true,
+    "nomMedicament": "Amoxicilline",
+    "typeMedicament": "Antibiotique",
+    "prixMedicament": 12.0
+    }
+    ]
+    }
+    ]
