@@ -18,7 +18,7 @@ public class MutuelleApplication implements CommandLineRunner {
     private Job importJob;
 
     public static void main(String[] args) {
-        SpringApplication.run(MutuelleApplication.class, args);
+		System.exit(SpringApplication.exit(SpringApplication.run(MutuelleApplication.class, args)));
     }
 
     @Override

@@ -29,7 +29,7 @@
     },
     {
     "nomAssure": "Farouk",
-    "numeroAffiliation": "AFF654321",
+    "numeroAffiliation": "",
     "immatriculation": "IMM123098",
     "lienParente": "épouse",
     "montantTotalFrais": 200.0,
@@ -46,5 +46,25 @@
     "prixMedicament": 12.0
     }
     ]
-    }
+    }, 
+    {
+        "nomAssure": "",
+        "numeroAffiliation": "AFF654321",
+        "immatriculation": "IMM123098",
+        "lienParente": "épouse",
+        "montantTotalFrais": 200.0,
+        "prixConsultation": 60.0,
+        "nombrePiecesJointes": 2,
+        "nomBeneficiaire": "Samira",
+        "dateDepotDossier": "2024-11-11",
+        "traitements": [
+        {
+        "codeBarre": "1122334455",
+        "existe": true,
+        "nomMedicament": "Amoxicilline",
+        "typeMedicament": "Antibiotique",
+        "prixMedicament": 12.0
+        }
+        ]
+        }
     ]
