@@ -1,22 +1,25 @@
 package ma.ensa.mutuelle.models;
 
-
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TypeMedicine {
+public class Traitement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String codeBarre;
+    private Boolean existe;
+    private String nomMedicament;
+    private String typeMedicament;
+    private Double prixMedicament;
 
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "dossier_id")
+    private Dossier dossier;
 }

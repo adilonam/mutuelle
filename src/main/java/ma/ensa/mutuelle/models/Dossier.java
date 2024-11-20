@@ -1,28 +1,20 @@
-// File: Folder.java
 package ma.ensa.mutuelle.models;
-
-import java.util.List;
-
-
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Folder {
+public class Dossier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
-
     private String nomAssure;
     private String numeroAffiliation;
     private String immatriculation;
@@ -33,8 +25,6 @@ public class Folder {
     private String nomBeneficiaire;
     private String dateDepotDossier;
 
-    @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Treatment> traitements;
-
-    // Getters and Setters
+    @OneToMany(mappedBy = "dossier", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Traitement> traitements;
 }
