@@ -33,7 +33,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
-@EnableBatchProcessing
 public class BatchConfig {
 
     @Bean
