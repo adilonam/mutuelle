@@ -1,11 +1,16 @@
 package ma.ensa.mutuelle.models;
 
-import jakarta.persistence.*;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Entity
 @Data
@@ -24,6 +29,7 @@ public class Dossier {
     private Integer nombrePiecesJointes;
     private String nomBeneficiaire;
     private String dateDepotDossier;
+    private Double montantRembourseConsultation;
 
     @OneToMany(mappedBy = "dossier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Traitement> traitements;
