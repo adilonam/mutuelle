@@ -1,6 +1,7 @@
 package ma.ensa.mutuelle.models;
 
 import java.util.List;
+import java.util.Date;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -28,9 +29,12 @@ public class Dossier {
     private Double prixConsultation;
     private Integer nombrePiecesJointes;
     private String nomBeneficiaire;
-    private String dateDepotDossier;
+    private Date dateDepotDossier;
+    private Date dateValidationDossier;
+    private Double tauxRemboursementConsultation;
     private Double montantRembourseConsultation;
-
+    private Double montantRembourseTraitement;
+    private Double montantTotalRembourse;
     @OneToMany(mappedBy = "dossier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Traitement> traitements;
 }

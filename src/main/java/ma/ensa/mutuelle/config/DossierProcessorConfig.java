@@ -11,7 +11,10 @@ import org.springframework.context.annotation.Configuration;
 
 import jakarta.annotation.PostConstruct;
 import ma.ensa.mutuelle.models.Dossier;
+import ma.ensa.mutuelle.models.MedicamentReferentiel;
 import ma.ensa.mutuelle.models.Remboursement;
+import ma.ensa.mutuelle.models.Traitement;
+import ma.ensa.mutuelle.repositories.MedicamentReferentielRepository;
 import ma.ensa.mutuelle.repositories.RemboursementRepository;
 
 @Configuration
@@ -19,6 +22,8 @@ public class DossierProcessorConfig {
   @Autowired
     private RemboursementRepository remboursementRepository;
 
+    @Autowired
+    private MedicamentReferentielRepository medicamentReferentielRepository;
 
     private double tauxRemboursement;
 
@@ -75,18 +80,72 @@ public class DossierProcessorConfig {
             // Apply a fixed percentage reimbursement on the consultation price
       
             double montantRembourseConsultation = dossier.getPrixConsultation() * tauxRemboursement; // Example: 70% reimbursement
-            System.out.println("rembourssement :" + montantRembourseConsultation);
+           
             // dossier.setMontantRemboursementConsultation(consultationReimbursement);
             dossier.setMontantRembourseConsultation(montantRembourseConsultation);
-            System.out.println("====================================");
+                dossier.setTauxRemboursementConsultation(tauxRemboursement);
+            return dossier;
+        };
+    }
+
+    @Bean
+    public ItemProcessor<Dossier, Dossier> traitementMappingProcessor() {
+        return dossier -> {
+            System.out.println("the Traitement Mapping processor");
+            for (Traitement traitement : dossier.getTraitements()) {
+                MedicamentReferentiel medicament = medicamentReferentielRepository.findByCodeBarre(traitement.getCodeBarre());
+                if (medicament != null) {
+                    traitement.setPrixReferentiel(medicament.getPrixMedicament());
+                    traitement.setTauxRemboursement(medicament.getTauxRemboursement());
+                   
+                } else {
+                    System.out.println("Medicament not found for code barre: " + traitement.getCodeBarre());
+                    traitement.setPrixReferentiel(0.0);
+                    traitement.setTauxRemboursement(0.0);
+                }
+            }
+        
+            return dossier;
+        };
+    }
+
+    @Bean
+    public ItemProcessor<Dossier, Dossier> traitementRemboursementProcessor() {
+        return dossier -> {
+            System.out.println("the Traitement Remboursement processor");
+            for (Traitement traitement : dossier.getTraitements()) {
+                double montantRembourse = traitement.getPrixReferentiel() * traitement.getTauxRemboursement();
+                traitement.setMontantRembourse(montantRembourse);
+            }
+           
+            return dossier;
+        };
+    }
+
+    @Bean
+    public ItemProcessor<Dossier, Dossier> totalRemboursementProcessor() {
+        return dossier -> {
+            System.out.println("the Total Remboursement processor");
+            double montantRembourseTraitement = dossier.getTraitements().stream()
+                    .mapToDouble(Traitement::getMontantRembourse)
+                    .sum();
+            double montantTotalRembourse = montantRembourseTraitement + dossier.getMontantRembourseConsultation();
+            dossier.setMontantRembourseTraitement(montantRembourseTraitement);
+            dossier.setMontantTotalRembourse(montantTotalRembourse);
+            System.out.println(" ===================================");
+            System.out.println("dossier passed traitementRemboursementProcessor" + dossier);
+            System.out.println(" ===================================");
             return dossier;
         };
     }
 
     @Bean
     public CompositeItemProcessor<Dossier, Dossier> dossierProcessor(ItemProcessor<Dossier, Dossier> validationProcessor,
-                                                                     ItemProcessor<Dossier, Dossier> consultationProcessor) {
-        List<ItemProcessor<Dossier, Dossier>> processors = Arrays.asList(validationProcessor, consultationProcessor);
+                                                                     ItemProcessor<Dossier, Dossier> consultationProcessor,
+                                                                     ItemProcessor<Dossier, Dossier> traitementMappingProcessor,
+                                                                     ItemProcessor<Dossier, Dossier> traitementRemboursementProcessor,
+                                                                     ItemProcessor<Dossier, Dossier> totalRemboursementProcessor) {
+        List<ItemProcessor<Dossier, Dossier>> processors = Arrays.asList(validationProcessor, consultationProcessor, traitementMappingProcessor, traitementRemboursementProcessor, totalRemboursementProcessor);
         CompositeItemProcessor<Dossier, Dossier> processor = new CompositeItemProcessor<>();
         processor.setDelegates(processors);
         return processor;
